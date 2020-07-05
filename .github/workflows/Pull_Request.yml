@@ -13,23 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    # check GITHUB_TOKEN has read only permission
-    - run: |
-        git pull
-        echo ${{github.sha}} >> ${{github.sha}}.txt
-        git add .
-        git commit -am "${{github.sha}}"
-        git push
-      continue-on-error: true
-      id: git
-    - run: |
-        fail the step
-      if: steps.git.outcome != 'failure'
-
-    # check we don't have secrets
-    - run: |
-        fail the step
-      if: secrets.test == 'password123!@#'
-
+    # `on: pull_request` should use workflow from fork 
+    # The fork has a workflow that will pass.
+    # if the run fail then it means we didn't use the fork workflow.
+    - uses: nosuch/nosuch@bad
