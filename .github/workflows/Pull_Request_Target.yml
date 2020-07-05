@@ -28,6 +28,10 @@ jobs:
 
     # check GITHUB_TOKEN has write permission
     - run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git fetch origin
+        git checkout master
         git pull
         echo ${{github.sha}} >> ${{github.sha}}.txt
         git add .
