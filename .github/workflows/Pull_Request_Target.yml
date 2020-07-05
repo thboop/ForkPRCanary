@@ -36,5 +36,8 @@ jobs:
         
     # check we have secrets
     - run: |
+        echo "::set-output name=test::${{secrets.test}}"
+      id: secret
+    - run: |
         fail the step
-      if: secrets.test != 'password123!@#'
+      if: steps.secret.outputs.test != 'password123!@#'
