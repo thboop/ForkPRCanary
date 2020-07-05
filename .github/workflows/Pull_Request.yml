@@ -1,0 +1,19 @@
+# PR from fork should get read-only GITHUB_TOKEN and no secrets
+# Workflow file should come from fork, GITHUB_SHA/REF points to merge sha/ref
+
+name: PullRequest_Fork
+
+on:
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # `on: pull_request` should use workflow from fork 
+    # The fork has a workflow that will pass.
+    # if the run fail then it means we didn't use the fork workflow.
+    - uses: nosuch/nosuch@bad
