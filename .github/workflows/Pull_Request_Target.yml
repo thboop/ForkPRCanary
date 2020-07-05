@@ -28,6 +28,7 @@ jobs:
 
     # check GITHUB_TOKEN has write permission
     - run: |
+        git pull
         echo ${{github.sha}} >> ${{github.sha}}.txt
         git add .
         git commit -am "${{github.sha}}"
