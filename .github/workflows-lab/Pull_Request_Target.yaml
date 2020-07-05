@@ -1,0 +1,39 @@
+# Pull_request_target from fork should get read-only GITHUB_TOKEN and no secrets
+# Workflow file should not come from fork, GITHUB_SHA/REF points to base repo target
+
+name: PullRequestTarget_Fork
+
+on:
+  pull_request_target:
+    branches: [ master ]
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    # check GITHUB_TOKEN has write permission
+    - uses: actions/github-script@v2
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          github.issues.addLabels({
+            issue_number: context.pull_request.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: ['${{github.run_id}}']
+          })
+    # check GITHUB_TOKEN has write permission
+    - run: |
+        git pull
+        echo ${{github.sha}} >> ${{github.sha}}.txt
+        git add .
+        git commit -am "${{github.sha}}"
+        git push
+        
+    # check we have secrets
+    - run: |
+        fail the step
+      if: secrets.test != 'password123!@#'
