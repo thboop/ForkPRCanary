@@ -1,0 +1,42 @@
+
+name: Close PR
+
+on:
+  push:
+    paths: '.github/workflows/close_pr.yml'
+  schedule:
+    - cron: '0 12 * * *'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/github-script@v2.0.0
+      with:
+        debug: true
+        script: |
+          var yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          var prs = await github.pulls.list({
+             owner: 'bbq-beets',
+             repo: 'ForkPRCanary',
+             state: 'open',
+             sort: 'created',
+             direction: 'asc',
+           });
+           console.log(`Found ${prs.data.length} PRs`);
+           for (i = 0; i < prs.data.length; i++) {
+             var pr = prs.data[i];
+             console.log(`PR ${pr.html_url} is created at ${pr.created_at}`);
+             var createTime = Date.parse(pr.created_at);
+             if(createTime < yesterday) {
+               var closePR = await github.pulls.update({
+                 owner: 'bbq-beets',
+                 repo: 'ForkPRCanary',
+                 state: 'close',
+               });
+               console.log(`PR ${closePR.data.html_url} is ${closePR.data.state}`);
+             }
+           }
