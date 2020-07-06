@@ -34,7 +34,7 @@ jobs:
                var closePR = await github.pulls.update({
                  owner: 'bbq-beets',
                  repo: 'ForkPRCanary',
-                 pull_number: pr.number
+                 pull_number: pr.number,
                  state: 'close',
                });
                console.log(`PR ${closePR.data.html_url} is ${closePR.data.state}`);
