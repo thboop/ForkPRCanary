@@ -5,7 +5,7 @@ on:
   push:
     paths: '.github/workflows/close_pr.yml'
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 */12 * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,8 +17,7 @@ jobs:
       with:
         debug: true
         script: |
-          var yesterday = new Date();
-          yesterday.setDate(yesterday.getDate() - 1);
+          var oneHourAgo = new Date((new Date()) - 1000*60*60);
           var prs = await github.pulls.list({
              owner: 'bbq-beets',
              repo: 'ForkPRCanary',
@@ -31,7 +30,7 @@ jobs:
              var pr = prs.data[i];
              console.log(`PR ${pr.html_url} is created at ${pr.created_at}`);
              var createTime = Date.parse(pr.created_at);
-             if(createTime < yesterday) {
+             if(createTime < oneHourAgo) {
                var closePR = await github.pulls.update({
                  owner: 'bbq-beets',
                  repo: 'ForkPRCanary',
