@@ -19,29 +19,22 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
-          function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-          }
           github.issues.addLabels({
             issue_number: context.payload.pull_request.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             labels: ['${{github.run_id}}']
           })
-          var delay = Math.floor(Math.random() * 60);
-          await sleep(delay*1000)
     # check GITHUB_TOKEN has write permission
     - run: |
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
-        git fetch origin
-        git checkout master
-        git pull
+        branch=$RANDOM
+        git checkout -b $branch
         echo ${{github.sha}} >> ${{github.sha}}.txt
         git add .
         git commit -am "${{github.sha}}"
-        git push
-        
+        git push -u origin $branch
     # check we have secrets
     - run: |
         echo "::set-output name=test::${{secrets.test}}"
