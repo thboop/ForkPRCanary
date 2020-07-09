@@ -19,13 +19,17 @@ jobs:
       with:
         github-token: ${{secrets.GITHUB_TOKEN}}
         script: |
+          function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
           github.issues.addLabels({
             issue_number: context.payload.pull_request.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             labels: ['${{github.run_id}}']
           })
-
+          var delay = Math.floor(Math.random() * 15);
+          await sleep(delay*1000)
     # check GITHUB_TOKEN has write permission
     - run: |
         git config --global user.email "you@example.com"
