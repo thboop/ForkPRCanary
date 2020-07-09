@@ -28,10 +28,12 @@ jobs:
             repo: context.repo.repo,
             labels: ['${{github.run_id}}']
           })
-          var delay = Math.floor(Math.random() * 15);
+          var delay = Math.floor(Math.random() * 60);
           await sleep(delay*1000)
     # check GITHUB_TOKEN has write permission
     - run: |
+        branch=$RANDOM
+        git checkout -b $branch
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
         git fetch origin
