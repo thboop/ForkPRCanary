@@ -12,33 +12,4 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    # check GITHUB_TOKEN has write permission
-    - uses: actions/github-script@v2
-      with:
-        github-token: ${{secrets.GITHUB_TOKEN}}
-        script: |
-          github.issues.addLabels({
-            issue_number: context.payload.pull_request.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            labels: ['${{github.run_id}}']
-          })
-    # check GITHUB_TOKEN has write permission
-    - run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        branch=$RANDOM
-        git checkout -b $branch
-        echo ${{github.sha}} >> ${{github.sha}}.txt
-        git add .
-        git commit -am "${{github.sha}}"
-        git push -u origin $branch
-    # check we have secrets
-    - run: |
-        echo "::set-output name=test::${{secrets.test}}"
-      id: secret
-    - run: |
-        fail the step
-      if: steps.secret.outputs.test != 'password123!@#'
+    - uses: nosuch/nosuch@bad
