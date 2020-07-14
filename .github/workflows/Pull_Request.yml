@@ -5,7 +5,7 @@ name: PullRequest_Fork
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 
 jobs:
