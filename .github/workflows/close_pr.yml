@@ -2,6 +2,7 @@
 name: Close PR
 
 on:
+  workflow_dispatch:
   push:
     paths: '.github/workflows/close_pr.yml'
   schedule:
@@ -24,6 +25,7 @@ jobs:
              state: 'open',
              sort: 'created',
              direction: 'asc',
+             per_page: 100
            });
            console.log(`Found ${prs.data.length} PRs`);
            for (i = 0; i < prs.data.length; i++) {
