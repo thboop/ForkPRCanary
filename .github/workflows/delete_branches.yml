@@ -27,6 +27,9 @@ jobs:
            console.log(`Found ${branches.data.length} Branches`);
            for (i = 0; i < branches.data.length; i++) {
              var branchName = branches.data[i].name;
+             if(branchName === "main") {
+               continue 
+             }
              var branch = await github.repos.getBranch({
               owner: 'bbq-beets',
               repo: 'ForkPRCanary',
