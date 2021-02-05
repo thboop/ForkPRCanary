@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # We should use workflow file from the fork repo and not the base repo.
+    - uses: notexist/notexist@vnotexist
+      
     - uses: actions/checkout@v2
     
     # check GITHUB_TOKEN has write permission
