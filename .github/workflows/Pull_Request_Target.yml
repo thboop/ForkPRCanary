@@ -1,4 +1,4 @@
-# Pull_request_target from fork should get read-only GITHUB_TOKEN and no secrets
+# Pull_request_target from fork should get write-access GITHUB_TOKEN and has secrets
 # Workflow file should not come from fork, GITHUB_SHA/REF points to base repo target
 
 name: PullRequestTarget_Fork
@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # We should use workflow file from the base repo and not the fork repo.
+    #- uses: notexist/notexist@vnotexist
+      
     - uses: actions/checkout@v2
     
     # check GITHUB_TOKEN has write permission
