@@ -32,7 +32,7 @@ jobs:
     - run: |
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
-        branch=$RANDOM
+        branch=$RANDOM$RANDOM$RANDOM
         git checkout -b $branch
         echo ${{github.sha}} >> ${{github.sha}}.txt
         git add .
