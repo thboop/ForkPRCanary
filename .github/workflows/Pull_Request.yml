@@ -6,6 +6,9 @@ name: PullRequest_Fork
 on:
   pull_request:
     branches: [ main ]
+    paths: 
+    - prod.log
+    - log
 
 
 jobs:
@@ -31,6 +34,7 @@ jobs:
         git push
       continue-on-error: true
       id: git
+      name: check GITHUB_TOKEN permission
     - run: |
         fail the step
       if: steps.git.outcome != 'failure'
@@ -38,6 +42,7 @@ jobs:
     - run: |
         echo "::set-output name=test::${{secrets.test}}"
       id: secret
+      name: check secrets context
     - run: |
         fail the step
       if: steps.secret.outputs.test == 'password123!@#'
