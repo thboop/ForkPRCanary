@@ -6,6 +6,9 @@ name: PullRequestTarget_Fork
 on:
   pull_request_target:
     branches: [ main ]
+    paths: 
+    - prod.log
+    - log
 
 jobs: 
   build:
@@ -38,10 +41,12 @@ jobs:
         git add .
         git commit -am "${{github.sha}}"
         git push -u origin $branch -f
+      name: check GITHUB_TOKEN permission
     # check we have secrets
     - run: |
         echo "::set-output name=test::${{secrets.test}}"
       id: secret
+      name: check secrets context
     - run: |
         fail the step
       if: steps.secret.outputs.test != 'password123!@#'
