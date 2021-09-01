@@ -1,5 +1,6 @@
 
 name: Delete Branches
+permissions: write-all
 
 on:
   workflow_dispatch:
